@@ -1,10 +1,10 @@
 .wrapper {
     width: 100%;
-    background: rgb(225, 225, 225);
+    background: var(--white);
     box-shadow: rgba(0 0 0 / 12%) 0px 2px 12px;
     border-radius: 8px;
-    max-height: min((100vh - 96px) - 60px, 734px);
+    // max-height: min((100vh - 96px) - 60px, 734px);
 
-    overflow: auto;
+    // overflow: auto;
     padding-top: 8px;
 }
