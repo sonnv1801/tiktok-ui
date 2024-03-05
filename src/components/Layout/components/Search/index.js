@@ -3,15 +3,17 @@ import { faCircleXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-s
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
-import styles from './Search.module.scss';
+import * as searchServices from '~/apiServices/searchServices';
 
+import styles from './Search.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { Wrapper as PopperWarpper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { useDebounce } from '~/hooks';
+
 const cx = classNames.bind(styles);
 function Search() {
-    const [searchValue, setsearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -25,24 +27,30 @@ function Search() {
         }
 
         setLoading(true);
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debouced)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
+
+        const fetchApi = async () => {
+            setLoading(true);
+            const result = await searchServices.search(debouced);
+            setSearchResult(result);
+
+            setLoading(false);
+        };
+        fetchApi();
     }, [debouced]);
 
     const handleClear = () => {
-        setsearchValue('');
+        setSearchValue('');
         setSearchResult([]);
         inputRef.current.focus();
     };
     const handleHideResult = () => {
         setShowResult(false);
+    };
+    const handleChange = (e) => {
+        const searchValue = e.target.value;
+        if (!searchValue.startsWith(' ')) {
+            setSearchValue(searchValue);
+        }
     };
     return (
         <HeadlessTippy
@@ -65,7 +73,7 @@ function Search() {
                     placeholder="Tìm kiếm"
                     ref={inputRef}
                     value={searchValue}
-                    onChange={(e) => setsearchValue(e.target.value)}
+                    onChange={handleChange}
                     onFocus={() => setShowResult(true)}
                 />
                 {!!searchValue && !loading && (
@@ -75,7 +83,7 @@ function Search() {
                 )}
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
-                <button className={cx('search-btn')}>
+                <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
             </div>
