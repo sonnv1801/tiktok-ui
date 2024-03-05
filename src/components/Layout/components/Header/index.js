@@ -128,7 +128,7 @@ function Header() {
                                 className={cx('user-avatar')}
                                 src="https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/81cbdbc3f0140c13a9fb5a0e8f479a50.jpeg?lk3s=a5d48078&x-expires=1709272800&x-signature=j%2BXFRh6y%2F1xWUHvMgBMeVyOA7%2Bc%3D"
                                 alt=""
-                                fallback="https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/eb400774f5cca33adfe7631e3fa1e6b6.jpeg?lk3s=a5d48078&x-expires=1709359200&x-signature=4zso0hPKLEbST5jIeIBMDLoxfdU%3D"
+                                fallback="https://files.fullstack.edu.vn/f8-tiktok/users/2/627394cb56d66.jpg"
                             />
                         ) : (
                             <button className={cx('more-btn')}>
